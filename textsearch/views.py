@@ -22,20 +22,34 @@ def search(request):
 
         match_list = {} ## Change matchlist from set to dict as it is more
                         ## convinient for rankings 
-        counter = 0
+        counter,e, f, m = 0, 0, 0, 0
         ## Open file 
         with open('word_search.tsv', 'r') as infile:
             reader = csv.reader(infile, delimiter='\t')
             for word in reader:
-                if search_word == word[0] or re_midmatch.match(word[0]):
-                    match_list[counter] = word[0]
+                if search_word == word[0]:
+                    match_list['0'+str(e)] = word[0]
                     counter+=1
+                    e+=1
+                if re_frontmatch.match(word[0]):
+                    match_list['1'+str(f)] = word[0]
+                    counter+=1
+                    f+=1
+                if re_midmatch.match(word[0]):
+                    match_list['2'+str(m)] = word[0]
+                    counter+=1
+                    m+=1
+
                 if counter is 25:
                     break
-        ## replace the square brackets from a list into curly json type brackets
-        #curly_match_list = list(match_list).__str__().replace('[', '{') \
-        #                                             .replace(']', '}')
+
+        realign_keys(match_list)
+
         data = {'success': True, 'matches': match_list }    
     else:
         return HttpResponseBadRequest()
     return JsonResponse(data, safe=True)    
+
+def realign_keys(dict):
+    for key, value in dict.items():
+        print key[:1]
