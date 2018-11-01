@@ -1,0 +1,11 @@
+TEXT SEARCH
+
+- Run with ./manage.py runserver.
+- Search box on localhost:8000 should perform real time search queries from backend.
+- 25 results are retrieved from the data file at a time.
+- Using regular expressions and direct comparsion three categories of matches are retrieved.
+- Exact (word is exactly the same as query), 'prefix'-match (query matches word in the begining) and mid-match (query occurs within the word somewhere in the middle).
+- These are given a key value that indicates their result rank since dicts are sequenceless. 
+- This is done so the file contents have to be only looped through once.
+- The resulting dict with 25 values with position indicating keys are put through a few functions that using python sorted with custom comparison routines, output the values in an ordered list.
+- This list is returned as json to the frontend. 
