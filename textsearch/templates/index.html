@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("input, button").on('keyup click', (function(){
+        $.getJSON("search", {word:$("#search").val()}, function(result){
+            $.each(result, function(key, value){
+                $("p").empty();
+                $.each(result["matches"], function(index, value){
+                    $("p").append(value+"</br>");
+                });
+            });
+        });        
+    }));
+});
+</script>
+</head>
+
+<body>
+
+<input type="search" id="search" name="word" placeholder="Word search">
+<button>Search</button>
+</form>
+
+<p></p>
+</body>
+</html>

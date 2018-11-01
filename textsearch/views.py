@@ -7,7 +7,7 @@ import csv, re
 # Create your views here.
 
 def index(request):
-    return render(request, 'templates/index.html', {})
+    return render(request, 'index.html')
 
 def search(request):
     """ Search query handler """
@@ -16,6 +16,11 @@ def search(request):
         url_query_dict = QueryDict(request.META['QUERY_STRING'])
         search_word = url_query_dict.get('word') ## get search argument out 
                                                  ## of querystring 
+
+        ## exit if no search query
+        if not search_word:
+            return JsonResponse({'success': False, 'status': 'no query'}, \
+                                  safe=True)    
 
         ## regular expr that does middle of a word match
         re_midmatch = re.compile('[a-z]+'+search_word+'[a-z]+') 
